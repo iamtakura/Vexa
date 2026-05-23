@@ -7,10 +7,9 @@ export default function WorldNode({
   world, 
   status, 
   isRecommended = false, 
-  isTablet = false,
   onClick 
 }) {
-  const { title, subtitle, icon, color } = world;
+  const { title, subtitle, icon } = world;
   const { completed, active, locked } = status;
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -29,8 +28,6 @@ export default function WorldNode({
 
   return (
     <div className="relative flex flex-col items-center pb-[8px] select-none z-10">
-      
-
       {/* Tooltip for Locked Nodes */}
       <AnimatePresence>
         {showTooltip && (
@@ -63,11 +60,14 @@ export default function WorldNode({
       >
         {/* Icon Inside Node */}
         {locked ? (
-          <Lock size={isTablet ? 22 : 18} className="text-muted/40" />
+          <Lock className="text-muted/40 w-[18px] h-[18px] sm:w-[22px] sm:h-[22px]" />
         ) : (
           <IconComponent 
-            size={completed ? (isTablet ? 26 : 22) : (isTablet ? 28 : 24)} 
-            className={`${completed ? 'text-coral' : 'text-white'} fill-current`} 
+            className={`${
+              completed 
+                ? 'text-coral w-[22px] h-[22px] sm:w-[26px] sm:h-[26px]' 
+                : 'text-white w-[24px] h-[24px] sm:w-[28px] sm:h-[28px]'
+            } fill-current`} 
           />
         )}
 

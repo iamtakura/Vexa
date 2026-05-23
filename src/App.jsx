@@ -106,9 +106,12 @@ function AppContent() {
       {showNavAndBar && <TopBar />}
       
       {/* Dynamic viewport: scrollable for content feeds, strictly fixed for onboarding/lessons to prevent layout squeezes */}
-      <div className={`flex-1 flex flex-col ${
-        showNavAndBar ? 'overflow-y-auto no-scrollbar' : 'overflow-hidden'
-      } relative w-full min-h-0`}>
+      <div 
+        className={`flex-1 flex flex-col ${
+          showNavAndBar ? 'overflow-y-auto overflow-x-hidden no-scrollbar' : 'overflow-hidden'
+        } relative w-full min-h-0`}
+        style={showNavAndBar ? { WebkitOverflowScrolling: 'touch' } : undefined}
+      >
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             {/* Redirect root to /home or /onboarding */}

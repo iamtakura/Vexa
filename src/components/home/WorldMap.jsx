@@ -1,6 +1,6 @@
 // src/components/home/WorldMap.jsx
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useVexaStore } from '../../store/useVexaStore';
 import { WORLD_METADATA } from '../../data/worlds';
@@ -9,19 +9,6 @@ import WorldNode from '../map/WorldNode';
 export default function WorldMap() {
   const navigate = useNavigate();
   const { sexEdSource, completedWorlds } = useVexaStore();
-
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const isTablet = viewportWidth >= 480 && viewportWidth < 1024;
-  const mapWidth = isTablet ? 480 : 390;
-  const mapCenter = mapWidth / 2;
-  const xOffset = isTablet ? 72 : 42;
 
   // 1. Arrange worlds based on sexEdSource
   let mapWorlds = [...WORLD_METADATA];
@@ -65,17 +52,16 @@ export default function WorldMap() {
     };
   });
 
-  // 4. Generate visual snaking coordinates for SVG lines
-  const verticalSpacing = 100; // vertical gap in px (reduced from 120 to bring nodes closer)
+  // 4. Generate visual snaking coordinates (x: percentage 0-100, y: pixels)
+  const verticalSpacing = 100; // vertical gap in px
   const baseOffset = 24; // top padding
   const points = worldStatuses.map((_, idx) => {
-    const x = mapCenter + (idx % 2 === 0 ? -xOffset : xOffset);
+    const x = idx % 2 === 0 ? 30 : 70; // 30% and 70% width
     const y = baseOffset + idx * verticalSpacing + 40; // 40px = node radius center
     return { x, y };
   });
 
   const handleNodeClick = (worldId) => {
-    // Navigate to the first lesson of that world
     const num = worldId.split('-')[1];
     const firstLessonId = `w${num}-l1`;
     navigate(`/lesson/${worldId}/${firstLessonId}`);
@@ -84,17 +70,20 @@ export default function WorldMap() {
   const mapHeight = baseOffset + mapWorlds.length * verticalSpacing + 20;
 
   return (
-    <div className="relative w-full px-4 pb-8 select-none flex flex-col items-center min-h-0">
+    <div 
+      className="relative w-full px-4 pb-8 select-none overflow-x-hidden min-h-0"
+      style={{ height: `${mapHeight}px` }}
+    >
       {/* SVG Connecting Paths Background */}
       <svg 
         className="absolute top-0 left-0 w-full pointer-events-none" 
         style={{ 
           height: `${mapHeight}px`,
           overflow: 'visible',
-          position: 'absolute',
           width: '100%'
         }}
-        viewBox={`0 0 ${mapWidth} ${mapHeight}`}
+        viewBox={`0 0 100 ${mapHeight}`}
+        preserveAspectRatio="none"
       >
         {points.map((p, idx) => {
           if (idx === 0) return null;
@@ -123,28 +112,27 @@ export default function WorldMap() {
       </svg>
 
       {/* Render World Nodes */}
-      <div className="relative flex flex-col items-center w-full z-10 pt-[24px]">
-        {worldStatuses.map(({ world, status }, idx) => {
-          const isWorld3Recommended = isPornSource && world.id === 'world-3';
-          const xShift = idx % 2 === 0 ? (isTablet ? 'translate-x-[-72px]' : 'translate-x-[-42px]') : (isTablet ? 'translate-x-[72px]' : 'translate-x-[42px]');
+      {worldStatuses.map(({ world, status }, idx) => {
+        const isWorld3Recommended = isPornSource && world.id === 'world-3';
+        const p = points[idx];
 
-          return (
-            <div 
-              key={world.id} 
-              className={`transform ${xShift} transition-transform duration-300`}
-              style={{ height: `${verticalSpacing}px` }}
-            >
-              <WorldNode
-                world={world}
-                status={status}
-                isRecommended={isWorld3Recommended}
-                isTablet={isTablet}
-                onClick={() => handleNodeClick(world.id)}
-              />
-            </div>
-          );
-        })}
-      </div>
+        return (
+          <div 
+            key={world.id} 
+            className={`absolute -translate-x-1/2 -translate-y-1/2 z-10 ${
+              idx % 2 === 0 ? 'left-[30%]' : 'left-[70%]'
+            }`}
+            style={{ top: `${p.y}px` }}
+          >
+            <WorldNode
+              world={world}
+              status={status}
+              isRecommended={isWorld3Recommended}
+              onClick={() => handleNodeClick(world.id)}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

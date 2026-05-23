@@ -71,8 +71,11 @@ export default function Login() {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 overflow-y-auto bg-[#120A33] text-white no-scrollbar selection:bg-coral/30 w-full">
-      <div className="w-full" style={{ maxWidth: '340px' }}>
+    <div
+      className="w-full min-h-screen min-h-[100dvh] flex flex-col items-center justify-center px-5 py-8 overflow-y-auto overflow-x-hidden text-white no-scrollbar selection:bg-coral/30"
+      style={{ background: 'var(--purple)' }}
+    >
+      <div className="w-full" style={{ maxWidth: '380px' }}>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

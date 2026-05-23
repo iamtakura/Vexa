@@ -327,7 +327,10 @@ export default function Ask() {
       </div>
 
       {/* Message Area (scrollable) */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar min-h-0">
+      <div 
+        className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4 no-scrollbar min-h-0"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
         {messages.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center min-h-[80%] text-center px-4 py-8">

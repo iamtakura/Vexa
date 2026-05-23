@@ -287,7 +287,10 @@ export default function Lesson() {
       </div>
 
       {/* Main Slide Panel Container */}
-      <div className="flex-1 flex flex-col overflow-y-auto no-scrollbar py-4 relative">
+      <div 
+        className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden no-scrollbar py-4 relative"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIdx}
