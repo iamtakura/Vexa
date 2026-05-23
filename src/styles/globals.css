@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --purple:        #2D1B69;   /* Primary background */
+  --purple-mid:    #3D2880;   /* Cards, nav background */
+  --purple-light:  #4E3494;   /* Elevated surfaces */
+  --purple-card:   #3A2575;   /* Card fills */
+  --coral:         #FF6B47;   /* Primary accent — CTAs, active states */
+  --coral-soft:    rgba(255, 107, 71, 0.18);  /* Hover fills, selected states */
+  --coral-glow:    rgba(255, 107, 71, 0.35);  /* Glow effects */
+  --white:         #F9F7FF;   /* Primary text */
+  --muted:         #9B8EC4;   /* Secondary text, labels */
+  --dim:           rgba(255, 255, 255, 0.07); /* Subtle borders, dividers */
+  --error:         #FF4D6D;   /* Wrong answer state */
+  --success:       #4CAF82;   /* Correct answer state */
+
+  --font-fredoka:  'Fredoka', sans-serif;
+  --font-nunito:   'Nunito', sans-serif;
+}
+
+@theme {
+  --color-purple: var(--purple);
+  --color-purple-mid: var(--purple-mid);
+  --color-purple-light: var(--purple-light);
+  --color-purple-card: var(--purple-card);
+  --color-coral: var(--coral);
+  --color-coral-soft: var(--coral-soft);
+  --color-coral-glow: var(--coral-glow);
+  --color-white: var(--white);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-error: var(--error);
+  --color-success: var(--success);
+
+  --font-fredoka: var(--font-fredoka);
+  --font-nunito: var(--font-nunito);
+}
+
+body {
+  background-color: #120A33; /* Deep space outer background */
+  color: var(--white);
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 12px var(--coral-soft), 0 0 4px var(--coral);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 24px var(--coral-glow), 0 0 8px var(--coral);
+    transform: scale(1.06);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float {
+  animation: float 4s infinite ease-in-out;
+}
+
+/* Disable scrollbars but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom progress transition */
+.progress-bar-fill {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* iOS safe area support */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+/* Apply to bottom nav on mobile to clear iOS home bar */
+.bottom-nav-safe {
+  padding-bottom: calc(8px + var(--safe-bottom));
+}
+
+/* Apply to top bar on mobile to clear iOS status bar */
+.top-bar-safe {
+  padding-top: calc(8px + var(--safe-top));
+}
