@@ -16,7 +16,7 @@ export default defineConfig({
             if (id.includes('framer-motion')) {
               return 'vendor-motion';
             }
-            if (id.includes('@supabase')) {
+            if (id.includes('@supabase') || id.includes('supabase-js')) {
               return 'vendor-supabase';
             }
             if (id.includes('lucide-react') || id.includes('zustand')) {
@@ -28,3 +28,4 @@ export default defineConfig({
     }
   }
 })
+

@@ -152,7 +152,7 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router>
+    <Router basename="/Vexa">
       <AppContent />
     </Router>
   );
